@@ -1,0 +1,19 @@
+
+@import
+	url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap')
+	;
+	
+	.fa fa-facebook, .fa-twitter, .fa-instagram, .fa-youtube {
+	color: white;
+	}
+	.body{
+background: red;
+}
+/* 	.row { */
+/* 	color: blue; */
+/* 	} */
+	.fa-facebook {
+			  background: #3B5998;
+			}
+	
+

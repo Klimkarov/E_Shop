@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Adidas Management System</title>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" 
+        crossorigin="anonymous">
+
+</head>
+
+<style>
+body {
+background-image:url('images/adidas/gradient.jpg');
+background-repeat: no repeat;
+background-size:cover;
+}
+</style>
+
+<body>
+
+<div th:insert="~{fragments/header::header}"></div>
+	
+	<div class="container my-2">
+	<h3>Create New Product</h3><br>
+	<form action="#" th:action="@{/saveProduct}" th:object="${product}"  method="POST" enctype="multipart/form-data">
+	<div class="row">
+	
+	<div class="col-3">		
+			<input type="text" th:field="*{serialNumber}" placeholder="Serial Number" class="form-control mb-4">
+			
+			<input type="text" th:field="*{stock}" placeholder="Stock" class="form-control mb-4">
+		</div>
+		
+		<div class="col-3">
+			<input type="text" th:field="*{name}" placeholder="Name" class="form-control mb-4">
+	
+			<input type="text" th:field="*{origin}" placeholder="Origin" class="form-control mb-4">
+	    </div>
+	    
+	    <div class="col-3">	
+		<h6>Get Category</h6>
+			<select th:field="*{category}">
+			<option value="">--</option>
+			<option th:each = "category : ${listCategory}"
+				th:value="${category.id}"
+				th:text="${category.gender}"/>
+			</select>			
+		</div>	   
+	    </div>
+	    
+	    <div class="row">
+	   
+	    <div class="col-3">
+			<input type="text" th:field="*{price}" step="0.2" placeholder="Price" class="form-control mb-4">
+		</div>
+	    
+	    <div class="col-3">
+               <label for="exampleFormControlFile1"><h6>Add Image</h6></label>
+               <input type="file" name="file" class="form-control-file" id="exampleFormControlFile1">
+          </div>					    
+	    </div><br>
+	    	
+	<div class="row">
+		
+	  <div class="col-3">     
+				<h6>Description:</h6>
+				<textarea rows="4" cols="12" th:field=*{description} class="form-control"></textarea>	
+			</div>    
+      </div><br><br>
+      
+    <div class="row">
+		
+		<div class="col">
+		<button type="submit" th:href="@{/product}"class="btn btn-danger">Create Product</button>
+			
+			</div>
+		</div>	
+		
+			</form>		
+			</div><br><br>
+			
+			<div th:insert="~{fragments/footer::footer}"></div>
+			  
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+		
+	</body>
+	</html>
+	
+	

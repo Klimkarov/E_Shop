@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<title>Adidas Management System</title>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+	crossorigin="anonymous">
+
+</head>
+
+<style>
+body {
+background-image:url('images/adidas/gradient.jpg');
+background-repeat: no repeat;
+background-size:cover;
+}
+
+</style>
+
+<body>
+
+	<div th:insert="~{fragments/header::header}"></div>
+	
+	<div class="container"  style="margin-left: 200px;">
+	
+		<div th:if="${#lists.isEmpty(listPayment)}" align="center">
+			<h3><span>[[${user.userName}]]</span> Your Payment list is empty</h3>
+		</div>
+		
+			<th:block th:each="payment: ${listPayment}" class="responsive" style="border-color: black; border:2px solid;">
+						
+		<div>
+			<h5 style="color: green;"><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<span>[[${user.userName}]]&nbsp;Your Payment Was Successful</span>
+				<label>Now you can check your Order and Payment data</label>
+			</h5>
+			
+		</div><br>
+	
+		<div align="left" style="color: red;">Payment Serial No.
+		<span>[[${payment.id}]]</span>
+		</div><br>
+				<div class="row">					
+					<div class="col" align="left">
+					  <h6>Pay Method</h6>
+					 </div>
+					 </div><br>
+					 
+					 <div class="row">
+					<div class="col"align="left">
+					   <p>	Cart: </p>
+						<span>[[${payment.payMethod}]]</span>
+					</div><br>
+					
+					<div class="col"align="left">
+						<p>Cart Number: <p>
+						<span>[[${payment.cardNumber}]]</span>
+					</div><br>
+					
+					<div class="col"align="left">
+						<p>Expires:</p>
+						<span>[[${payment.expires}]]</span>
+					</div><br>
+					
+					<div class="col"align="left">
+						<p>CVV:</p>
+						<span>[[${payment.cvv}]]</span>
+					</div><br>
+					
+					<div class="col"align="left">
+						<p>Total:</p>
+						<span>[[${payment.total}]]</span>
+					</div>
+						<div class="w-100" align="left">________________________________________________________________________________________________________________________________________________________</div><br>
+					</div><br>
+			
+                 <div class="row" >     
+					 <div class="col"align="left">
+					  <h6>Address Delivery</h6>
+					 </div>
+					 </div><br>
+					 
+					 <div class="row">
+					<div class="col"align="left">
+						<p>Country:</p>
+						<!--  <span th:text="${payment.payMethod} "></span> -->
+						<span>[[${payment.address.country}]]</span>
+					</div>
+				
+				
+				<div class="col"align="left">
+						<p>City:<p>
+						<span>[[${payment.address.city}]]</span>
+					</div>
+					
+					<div class="col"align="left">
+						<p>Street:</p>
+						<span>[[${payment.address.street}]]</span>
+					</div>
+					
+					<div class="col"align="left">
+						<p>Zip Code:<p>
+						<span>[[${payment.address.zip}]]</span>
+					</div>
+						<div class="w-100" align="left">________________________________________________________________________________________________________________________________________________________</div><br>
+					</div><br><br>
+					</th:block>
+					</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	
+
+	
+	<div th:insert="~{fragments/footer::footer}"></div>
+
+
+</body>
+</html>

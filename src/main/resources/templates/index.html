@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adidas Management System</title>
+<!-- BOOTSTRAP -->
+<link rel="stylesheet" 
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" 
+      crossorigin="anonymous">
+<!--     CSS     -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" 
+   integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" 
+  crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+  
+  <script src="https://kit.fontawesome.com/18e784bc36.js" crossorigin="anonymous"></script>
+  
+<title>Home Page</title>
+<link href='../../css/color.css' />
+</head>
+
+<style>
+body {
+background-image:url('images/adidas/gradient.jpg');
+background-repeat: no repeat;
+background-size:cover;
+}
+</style>
+
+
+<body>
+
+ <div th:insert="~{fragments/header::header}"></div> 
+
+	
+	<div class="container text-center form-inline responsive" style="padding-left: 270px;">
+	  <label><h1>Welcome To Adidas Company</h1></label>
+ 	</div><br> 
+ 	
+ 	<div align="center"></div><br><br>
+ 
+<!-- Carusal 	 -->
+ <div class="container" align="center" style="width:900px;height:600px;">	
+ 	<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+  <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img th:src="@{/images/adidas/adidas_cover.jpg}" class="d-block w-100" alt="First slide" style="width:700px;height:500px;">
+      <div class="carousel-caption d-none d-md-block">
+<!--         <h5>First slide label</h5> -->
+<!--         <p>Some representative placeholder content for the first slide.</p> -->
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img th:src="@{/images/adidas/adidas_fashion.jpg}" class="d-block w-100" alt="Second slide" style="width:700px;height:500px;">
+      <div class="carousel-caption d-none d-md-block">
+<!--         <h5>Second slide label</h5> -->
+<!--         <p>Some representative placeholder content for the second slide.</p> -->
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img th:src="@{/images/adidas/adidas_old.jpg}" class="d-block w-100" alt="Third slide" style="width:700px;height:500px;">
+      <div class="carousel-caption d-none d-md-block">
+<!--         <h5>Third slide label</h5> -->
+<!--         <p>Some representative placeholder content for the third slide.</p> -->
+      </div>
+    </div>
+    
+    <div class="carousel-item">
+      <img th:src="@{/images/adidas/adidas_ultra.jpg}" class="d-block w-100" alt="Second slide" style="width:700px;height:500px;">
+      <div class="carousel-caption d-none d-md-block">
+<!--         <h5>Second slide label</h5> -->
+<!--         <p>Some representative placeholder content for the second slide.</p> -->
+      </div>
+    </div>
+    
+    <div class="carousel-item">
+      <img th:src="@{/images/adidas/patika 1.jpg}" class="d-block w-100" alt="Third slide" style="width:500px;height:500px;">
+      <div class="carousel-caption d-none d-md-block">
+      </div>
+  </div>
+<!--   Previous and next -->
+<!--   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev"> -->
+<!--     <span class="carousel-control-prev-icon" aria-hidden="true"></span> -->
+<!--     <span class="visually-hidden">Previous</span> -->
+<!--   </button> -->
+<!--   <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next"> -->
+<!--     <span class="carousel-control-next-icon" aria-hidden="true"></span> -->
+<!--     <span class="visually-hidden">Next</span> -->
+<!--   </button> -->
+  
+  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+  
+    </div>
+   </div>
+  </div>
+ </div>
+ 	
+
+ <div th:insert="~{fragments/footer::footer}"></div>
+		
+</body>
+</html>
