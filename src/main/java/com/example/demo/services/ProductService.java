@@ -88,7 +88,7 @@ public class ProductService implements ProductInterface{
 
 
 
-	// get photo from pc and save in database //
+	// get photo from pc and save in database//
 	public void save(Product product, MultipartFile file) {
 
 		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
