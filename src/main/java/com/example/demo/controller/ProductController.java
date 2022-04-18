@@ -64,6 +64,9 @@ public class ProductController {
 
 	@Autowired
 	ShoppingCartRepository shoppingCartRepo;
+	
+	@Autowired
+	ShoppingCart shoppingCart;
 
 	
 
@@ -136,14 +139,15 @@ public class ProductController {
 	}
 
 	@PostMapping("/saveProduct")
-	public String saveProduct(@ModelAttribute("product") Product product, Model model, MultipartFile file,
-			@ModelAttribute("category") Category category) {
+	public String saveProduct(@ModelAttribute("product") Product product, Model model, 
+			                  MultipartFile file) {
 
 		LocalDate createdProduct = LocalDate.now();
 		product.setCreatedProduct(createdProduct);
 
 		productRepo.save(product);
 		productService.save(product, file);
+		
 		return "redirect:/product";
 	}
 	
@@ -169,8 +173,18 @@ public class ProductController {
 	// Delete Product //
 
 	@GetMapping("/deleteProduct/{id}")
-	public String deleteProduct(@PathVariable("id") Integer id, ShoppingCart shoppingCart, MyOrder order) {
+	public String deleteProduct(@PathVariable("id") Integer id, Product product, ShoppingCart shoppingCart) {
+		
+		productRepo.findById(id).get();
+//		shoppingCartRepo.findById(id).get();
 		productRepo.deleteById(id);
+		
+//		List<ShoppingCart> list = shoppingCartRepo.findAll();
+//		for (ShoppingCart shoppingCart2 : list) {
+//			if(shoppingCart2.getId()==id) {
+//				shoppingCartRepo.deleteById(id);
+//			}
+//		}
     	return "redirect:/product";
 	}
 	
@@ -198,7 +212,7 @@ public class ProductController {
 		shoppingCart.setSerialNumber(productId.getSerialNumber());
 		shoppingCart.setCreatedProduct(addedProduct);
 		shoppingCart.setDescription(productId.getDescription());
-
+	
 		shoppingCart.setQuantity(1);
 		shoppingCart.setAddress(shoppingCart.getAddress());
 		shoppingCart.setTotal(shoppingCart.getTotal());

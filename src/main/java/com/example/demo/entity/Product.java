@@ -8,6 +8,7 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -58,8 +59,8 @@ public class Product {
 //	  Date date = Date.from(java.time.ZonedDateTime.now().toInstant());
 //	  Date createdDate = new Date();
 	
-    @ManyToOne
-	private ShoppingCart shoppingCart;
+    @ManyToOne(cascade = CascadeType.ALL) // za da se izbrise product od shoping cart 
+	private ShoppingCart shoppingCart;    // niedna cascada ne raboti
 
 	@Lob
 	private String image;
