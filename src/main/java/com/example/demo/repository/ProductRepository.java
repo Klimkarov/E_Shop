@@ -19,7 +19,7 @@ import com.example.demo.entity.Product;
 @EnableJpaRepositories
 public interface ProductRepository extends PagingAndSortingRepository<Product, Integer> {
 	
-	@Query("SELECT p FROM Product p WHERE "// e.firstName LIKE %?1%"
+	@Query("SELECT p FROM Product p WHERE "// p.firstName LIKE %?1%"
 			//	+ " OR e.lastName LIKE %?1%"
 			//	+ " OR e.email LIKE %?1%"
 		    //    + " OR e.company LIKE %?1%"
@@ -27,7 +27,10 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, I
 		+ "CONCAT(p.serialNumber, p.name, p.price, p.origin, p.createdProduct, p.image,  p.category.gender, p.stock, p.description)"
 		+ "LIKE %?1%") 
 		public Page<Product> findAll(String keyword, Pageable pageable);
-
+//                                                   Pageable za da bara na site strani
+	
+	
+	
 	public void save(List<Product> listKeyword);
 	
 	

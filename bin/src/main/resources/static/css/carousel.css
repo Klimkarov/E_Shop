@@ -1,0 +1,14 @@
+
+body{
+/* 	display: flex;  */
+	justify-content: center;
+/* 	position: relative; */
+}
+
+.container{
+/* 	display: flex;  */
+/* 	justify-content: center; */
+	position: relative;
+	align-items: center;
+	flex-wrap: wrap;
+}

@@ -17,7 +17,7 @@ import com.example.demo.entity.Product;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.ShoppingCart;
 import com.example.demo.entity.User;
-
+import com.example.demo.repository.ProductRepository;
 import com.example.demo.repository.ShoppingCartRepository;
 
 @Service
@@ -31,6 +31,9 @@ public class ShoppingCartService {
 	@Autowired
 	ShoppingCartRepository shoppingCartRepo;
 	
+	@Autowired
+	ProductRepository productRepo;
+	
 
 	public Iterable<ShoppingCart> findAll() {
 
@@ -42,6 +45,8 @@ public class ShoppingCartService {
 
 		return shoppingCartRepo.findById(proId).get();
 	}
+	
+	
 	
 
 	public ShoppingCart find(int id) {

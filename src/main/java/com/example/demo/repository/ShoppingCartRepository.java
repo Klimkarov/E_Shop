@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.entity.MyOrder;
+import com.example.demo.entity.Product;
 import com.example.demo.entity.ShoppingCart;
 import com.example.demo.entity.User;
 
@@ -19,7 +20,7 @@ public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Inte
 	
 	public List<ShoppingCart> findByUser(User user);
 
-	public void save(List<ShoppingCart> shoppingCartQ);
+	
 	
 //	public List<ShoppingCart> deleteByUserAndProduct(User user, Product product);
 	

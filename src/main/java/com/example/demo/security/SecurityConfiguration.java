@@ -17,6 +17,8 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.example.demo.services.AppUserDetailsService;
 
@@ -24,8 +26,17 @@ import com.example.demo.services.AppUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter implements WebMvcConfigurer{
 	
+	@Override
+		public void addResourceHandlers(ResourceHandlerRegistry registry) {
+			// TODO Auto-generated method stub
+			//WebMvcConfigurer.super.addResourceHandlers(registry);
+		registry
+		.addResourceHandler("/URLToReachResourcesFolder/**")
+		.addResourceLocations("/resources");
+		}
+		
 	
 	
 //	    @Autowired
@@ -62,7 +73,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	    protected void configure(HttpSecurity http) throws Exception {
 	        http.authorizeRequests() 
 	                                
-	            .antMatchers("/index", "/shoppingCart/**", "/showOrder/**", "/showOrderHistory/**", "/showUserProfile/**","/addProduct/{proId}/**").authenticated()
+	            .antMatchers("/index", "/header/**", "/shoppingCart/**", "/showOrder/**", "/showOrderHistory/**", "/showUserProfile/**","/addProduct/{proId}/**").authenticated()
 	            .antMatchers("/images/**", "/css/**", "/js/**", "/webjars/**").permitAll()
 	            
 	            .antMatchers("/deleteProduct/**").hasAuthority("ROLE_ADMIN")

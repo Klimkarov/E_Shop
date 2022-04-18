@@ -81,14 +81,16 @@ public class ShoppingCartController {
 
 	@GetMapping("/shoppingCart")
 	public String shoppingCart(Model model, @AuthenticationPrincipal UserDetails userDetails,
-			OrderHistory orderHistory,  @ModelAttribute("cart") ShoppingCart shoppingCart, BindingResult result) {
+			Product product, OrderHistory orderHistory,  @ModelAttribute("cart") ShoppingCart shoppingCart, BindingResult result) {
 	
 		String username = userDetails.getUsername();
 		User user = userRepo.findByUserName(username);
 		model.addAttribute("user", user);
 		
 		List<ShoppingCart> listShopCart = user.getShoppingCart();
-		
+//		if(user.getProduct().getId() != product.getId()) {
+//			productRepo.delete(product);
+//		}
 		Double shoppingCartTotal = 0.0;
 		
 		for (ShoppingCart x : listShopCart) {
@@ -104,6 +106,13 @@ public class ShoppingCartController {
 
 		List<OrderHistory> orderListHistory = orderHistRepo.findAll();
 		model.addAttribute("orderListHistory", orderListHistory);
+		
+		// if product in sto is empty => delete product from shoppingCart
+		/*
+		 * List<ShoppingCart> list = shoppingCartRepo.findAll(); for (ShoppingCart
+		 * shoppingCart2 : list) { if(shoppingCart2.getProduct().getStock()<=0) {
+		 * shoppingCartRepo.delete(shoppingCart2); } }
+		 */
 		
 		return "ShoppingCart";
 
