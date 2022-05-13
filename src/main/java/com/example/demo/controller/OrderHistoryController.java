@@ -50,13 +50,14 @@ public class OrderHistoryController {
         OrderHistory OH = new OrderHistory();
 		OH.setUser(user);
 		OH.setPayment(payment);
+		
 	
 			
 		List<OrderHistory> listOH = user.getOrderHistory();
 		Double orderTotal = 0.0;
 		
 		for (OrderHistory x : listOH) {
-			orderTotal += x.getQuantity()*x.getPrice();
+			orderTotal += x.getQuantity() * x.getPrice();
 		}
 		
 		model.addAttribute("orderTotal", orderTotal);
@@ -75,9 +76,14 @@ public class OrderHistoryController {
 		List<OrderHistory> orderHist = orderHistRepo.findAll();
 		model.addAttribute("orderListHistory", orderHist);
 		
-//      Set User in Success Payment		
+        // Set User in Success Payment		
 		List<Payment> payment1 = user.getPayment();
 		model.addAttribute("listPayment", payment1);
+		
+		// for profile image in nav bar
+		String username = userDetails.getUsername();
+	    User userImage = userRepo.findByUserName(username);
+		model.addAttribute("userImage", userImage);
 			
 		return "orderHistory";
 	}

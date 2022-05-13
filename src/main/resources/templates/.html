@@ -4,9 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
     <title>Adidas Management System</title>
-    
     <!-- Bootstrap CSS -->
     <link 
     rel="stylesheet" 
@@ -33,12 +31,15 @@ background-size:cover;
 
 <div th:insert="~{fragments/header::header}"></div>
 
-<div align="center">
+<div class="container" align="center">
 
 <h3>Sorry, <span sec:authentication="principal.username">User</span> </h3>
-<h3>but you don't have a permission to access on this action</h3> 
-<h3>Only Admin have a permission</h3>
-
+<h3>The serial number you entered already exists, 
+    enter another serial number that is not in the product database</h3> 
+<!-- <h3>Only Admin have a permission</h3> -->
+<div class="col-3"><br>
+			<a th:href="@{/showNewProductForm}" class="btn btn-primary">Back to Create new Product</a>
+		</div>
 </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 <div th:insert="~{fragments/footer::footer}"></div>

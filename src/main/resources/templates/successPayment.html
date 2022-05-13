@@ -3,128 +3,162 @@
 <head>
 <!-- Required meta tags -->
 <meta charset="utf-8">
-<title>Adidas Management System</title>
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- Bootstrap CSS -->
+<title>Adidas Management System</title>
+
+<!-- BOOTSTRAP -->
 <link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
 	crossorigin="anonymous">
 
-<script src="https://kit.fontawesome.com/18e784bc36.js" crossorigin="anonymous"></script>
+<!-- CSS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+	crossorigin="anonymous">
 
-<link rel="stylesheet" type="text/css" th:href="@{/css/header.css}"> 
+
+<script src="https://kit.fontawesome.com/18e784bc36.js"
+	crossorigin="anonymous"></script>
+
+
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/header.css}">
 <link rel="stylesheet" th:href="@{/css/all.css}">
 
 </head>
 
 <style>
 body {
-background-image:url('images/adidas/gradient.jpg');
-background-repeat: no repeat;
-background-size:cover;
+	background-image: url('images/adidas/gradient.jpg');
+	background-repeat: no repeat;
+	background-size: cover;
 }
-
 </style>
 
 <body>
 
 	<div th:insert="~{fragments/header::header}"></div>
-	
-	<div class="container"  style="margin-left: 200px;">
-	
+
+	<div class="container" align="center"
+		style="border-color: black; border: 2px solid;">
+
 		<div th:if="${#lists.isEmpty(listPayment)}" align="center">
-			<h3><span>[[${user.userName}]]</span> Your Payment list is empty</h3>
+			<h3>
+				<span>[[${user.userName}]]</span> Your Payment list is empty
+			</h3>
 		</div>
-		
-			<th:block th:each="payment: ${listPayment}" class="responsive" style="border-color: black; border:2px solid;">
-						
-		<div>
-			<h5 style="color: green;"><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<span>[[${user.userName}]]&nbsp;Your Payment Was Successful</span>
-				<label>Now you can check your Order and Payment data</label>
-			</h5>
-			
-		</div><br>
-	
-		<div align="left" style="color: red;">Payment Serial No.
-		<span>[[${payment.id}]]</span>
-		</div><br>
-				<div class="row">					
-					<div class="col" align="left">
-					  <h6>Pay Method</h6>
-					 </div>
-					 </div><br>
-					 
-					 <div class="row">
-					<div class="col"align="left">
-					   <p>	Cart: </p>
-						<span>[[${payment.payMethod}]]</span>
-					</div><br>
-					
-					<div class="col"align="left">
-						<p>Cart Number: <p>
+
+		<th:block th:each="payment: ${listPayment}" class="responsive">
+
+			<div>
+				<h5 style="color: green;">
+					<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span>[[${user.userName}]]&nbsp;Your
+						Payment Was Successful</span> <label>Now you can check your Order
+						and Payment data</label>
+				</h5>
+
+			</div>
+			<br>
+
+			<div align="left" style="color: red;">
+				Payment Serial No. <span>[[${payment.id}]]</span>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col" align="left">
+					<h6>Pay Method</h6>
+				</div>
+			</div>
+			<br>
+
+			<div class="row">
+				<div class="col" align="left">
+					<p>Cart:</p>
+					<span>[[${payment.payMethod}]]</span>
+				</div>
+				<br>
+
+				<div class="col" align="left">
+					<p>Cart Number:
+					<p>
 						<span>[[${payment.cardNumber}]]</span>
-					</div><br>
-					
-					<div class="col"align="left">
-						<p>Expires:</p>
-						<span>[[${payment.expires}]]</span>
-					</div><br>
-					
-					<div class="col"align="left">
-						<p>CVV:</p>
-						<span>[[${payment.cvv}]]</span>
-					</div><br>
-					
-					<div class="col"align="left">
-						<p>Total:</p>
-						<span>[[${payment.total}]]</span>
-					</div>
-						<div class="w-100" align="left">________________________________________________________________________________________________________________________________________________________</div><br>
-					</div><br>
-			
-                 <div class="row" >     
-					 <div class="col"align="left">
-					  <h6>Address Delivery</h6>
-					 </div>
-					 </div><br>
-					 
-					 <div class="row">
-					<div class="col"align="left">
-						<p>Country:</p>
-						<!--  <span th:text="${payment.payMethod} "></span> -->
-						<span>[[${payment.address.country}]]</span>
-					</div>
-				
-				
-				<div class="col"align="left">
-						<p>City:<p>
+				</div>
+				<br>
+
+				<div class="col" align="left">
+					<p>Expires:</p>
+					<span>[[${payment.expires}]]</span>
+				</div>
+				<br>
+
+				<div class="col" align="left">
+					<p>CVV:</p>
+					<span>[[${payment.cvv}]]</span>
+				</div>
+				<br>
+
+				<div class="col" align="left">
+					<p>Total:</p>
+					<span>[[${payment.total}]]</span>
+				</div>
+				<div class="row">
+					<!-- horizontal line -->
+					<hr></hr>
+				</div>
+			</div>
+			<br>
+
+			<div class="row">
+				<div class="col" align="left">
+					<h6>Address Delivery</h6>
+				</div>
+			</div>
+			<br>
+
+			<div class="row">
+				<div class="col" align="left">
+					<p>Country:</p>
+					<!--  <span th:text="${payment.payMethod} "></span> -->
+					<span>[[${payment.address.country}]]</span>
+				</div>
+
+
+				<div class="col" align="left">
+					<p>City:
+					<p>
 						<span>[[${payment.address.city}]]</span>
-					</div>
-					
-					<div class="col"align="left">
-						<p>Street:</p>
-						<span>[[${payment.address.street}]]</span>
-					</div>
-					
-					<div class="col"align="left">
-						<p>Zip Code:<p>
+				</div>
+
+				<div class="col" align="left">
+					<p>Street:</p>
+					<span>[[${payment.address.street}]]</span>
+				</div>
+
+				<div class="col" align="left">
+					<p>Zip Code:
+					<p>
 						<span>[[${payment.address.zip}]]</span>
-					</div>
-						<div class="w-100" align="left">________________________________________________________________________________________________________________________________________________________</div><br>
-					</div><br><br>
-					</th:block>
-					</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+				</div>
+				<div class="row">
+					<!-- horizontal line -->
+					<hr></hr>
+				</div>
+			</div>
+		</th:block>
+	</div>
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	
 
-	
+
+
 	<div th:insert="~{fragments/footer::footer}"></div>
 
- <!-- for hamburger bar button -->
-<script src="" th:src="@{js/header.js}"></script>
+	<!-- for hamburger bar button -->
+	<script src="" th:src="@{js/header.js}"></script>
 
 </body>
 </html>

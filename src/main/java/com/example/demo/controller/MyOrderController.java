@@ -1,32 +1,24 @@
 package com.example.demo.controller;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
-import javax.ws.rs.PathParam;
 
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-//import org.springframework.security.core.annotation.AuthenticationPrincipal;
-//import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.entity.MyOrder;
 import com.example.demo.entity.Payment;
 import com.example.demo.entity.Product;
 import com.example.demo.entity.ShoppingCart;
 import com.example.demo.entity.User;
-
 import com.example.demo.repository.MyOrderRepository;
 import com.example.demo.repository.PaymentRepository;
 import com.example.demo.repository.ProductRepository;
@@ -67,6 +59,11 @@ public class MyOrderController {
 		
 		List<User> userList = userRepo.findAll();
 		model.addAttribute("userList", userList);
+		
+		// for profile image in nav bar
+		String username = userDetails.getUsername();
+	    User userImage = userRepo.findByUserName(username);
+		model.addAttribute("userImage", userImage);
 
 		ShoppingCart cart = new ShoppingCart();
 		model.addAttribute("cart", cart);

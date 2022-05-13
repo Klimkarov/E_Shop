@@ -4,6 +4,7 @@ import java.io.IOException;
 
 
 
+
 import java.time.LocalDate;
 import java.util.Base64;
 import java.util.List;
@@ -41,10 +42,13 @@ public class ProductService implements ProductInterface{
 	CategoryRepository categoryRepo;
 	
 	@Autowired
-	ShoppingCartRepository shopCartRepo;
+	ShoppingCartRepository shoppingCartRepo;
 	
 	@Autowired
 	Product product;
+	
+	@Autowired
+	ShoppingCart shoppingCart;
 	
 	public ProductService() {
 		super();
@@ -58,6 +62,16 @@ public class ProductService implements ProductInterface{
 		return product.getName();
 	}
 	
+// Delete product if in stock = 0
+	public void deleteProduct() {
+		List<Product> listProduct = (List<Product>) productRepo.findAll();
+	
+		for (Product product : listProduct) {
+			if(product.getStock()==0) {
+				productRepo.delete(product);
+			}
+		}
+	}
 	
 	public Page<Product> findAll(int pageNumber, String keyword, String sortField, String sortDir) {
 		
@@ -105,6 +119,7 @@ public class ProductService implements ProductInterface{
 		productRepo.save(product);
 
 	}
+	
 
 	public List<Product> listAll(String keyword) {
 		// TODO Auto-generated method stub

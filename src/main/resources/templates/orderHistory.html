@@ -3,9 +3,8 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Adidas Management System</title>
-
-<link rel="stylesheet"  href="" th:href="@{css/mystyle.css}">
 
 <!-- BOOTSTRAP -->
 <link rel="stylesheet"
@@ -69,7 +68,7 @@ background-size:cover;
 		<div class="col-10">
 		<th:block th:each="orderHistory : ${listOH}">			
 			<div class="row">
-				<div class="col-4"><p>Product</p>
+				<div class="col-4"><p><strong>Product</strong></p>
 					<label><strong>Serial Number:</strong></label>&nbsp;<span
 						th:text="${orderHistory.serialNumber}"></span>
 				</div>
@@ -99,7 +98,7 @@ background-size:cover;
 					</div>
 				</div>
 
-				<div class="col-2">
+				<div class="col-3">
 					<label><strong>Price:</strong></label> 
 					<span th:text="${orderHistory.price}"></span>
 					

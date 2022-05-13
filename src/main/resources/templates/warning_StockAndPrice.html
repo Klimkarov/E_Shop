@@ -33,20 +33,21 @@ background-size:cover;
 
 <div th:insert="~{fragments/header::header}"></div>
 
-<div align="center">
+<div class="container" align="center">
 
-<h3>Sorry, <span sec:authentication="principal.username">User</span> </h3>
-<h3>but you don't have a permission to access on this action</h3> 
-<h3>Only Admin have a permission</h3>
+<h3>Sorry, <span sec:authentication="principal.username">User</span> </h3><br>
+<h3>You have probably entered a value of 0 (zero) for a price or stock, go back and try again.</h3> 
 
+<!-- <h3>Only Admin have a permission</h3> -->
+<div class="col-3"><br>
+			<a th:href="@{/showNewProductForm}" class="btn btn-primary">Back to Create new Product</a>
+		</div>
 </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 <div th:insert="~{fragments/footer::footer}"></div>
 
-
-
-		 <!-- for hamburger bar button -->
-         <script src="" th:src="@{js/header.js}"></script>
+<!-- for hamburger bar button -->
+<script src="" th:src="@{js/header.js}"></script>
 	
 </body>
 </html>

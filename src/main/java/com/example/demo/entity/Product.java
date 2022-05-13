@@ -3,25 +3,25 @@ package com.example.demo.entity;
 import java.time.LocalDate;
 
 
-import java.util.Date;
+
+
+import java.util.Random;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
+
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import javax.persistence.Table;
+
+
+
 import org.springframework.stereotype.Component;
 
 import lombok.AllArgsConstructor;
@@ -39,15 +39,17 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-	private Integer serialNumber;
-	private String name;
+   	private String name;
 	private Double price;
 	private String origin;
 	private Integer stock;
 	private Integer quantity;
 	private LocalDate createdProduct;
 	private String description;
+	private Integer serialNumber;
+	
+//	Random random = new Random();
+//	private Integer serialNumber = random.nextInt(100000);
 
 //	@DateTimeFormat(pattern = "yyyy-MM-dd")
 //	private Date createdProduct;

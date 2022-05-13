@@ -2,18 +2,14 @@ package com.example.demo.controller;
 
 import java.io.IOException;
 
-import java.security.Principal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import javax.ws.rs.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -27,14 +23,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Address;
-import com.example.demo.entity.Payment;
 import com.example.demo.entity.Role;
-import com.example.demo.entity.RoleName;
 import com.example.demo.entity.User;
 import com.example.demo.repository.AddressRepository;
 import com.example.demo.repository.RoleRepository;
@@ -64,9 +57,14 @@ public class UsersController {
 
 
 	@GetMapping("/showRegistrationUser")
-	public String showRegistrationForm(Model model) {
+	public String showRegistrationForm(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 
 		model.addAttribute("user", new User());
+		
+//		// for profile image in nav bar
+//		String userName = userDetails.getUsername();
+//	    User userImage = userRepo.findByUserName(userName);
+//	    model.addAttribute("userImage", userImage);
 
 		return "registration_User";
 	}
@@ -77,17 +75,20 @@ public class UsersController {
 			RedirectAttributes redirAttrs, MultipartFile file, Address address, BindingResult result)throws IOException {
 		
 	//	existing is equal of already stored emails
-		User existing = userRepo.findByEmail(user.getEmail());
-        if (existing != null) {
-            result.rejectValue("email", null, "There is already an account registered with that email");
+		User existingEmail = userRepo.findByEmail(user.getEmail());
+		User existingUsername = userRepo.findByUserName(user.getUserName());
+        if (existingEmail != null || existingUsername != null) {
+        	
+         //   result.rejectValue("email", null, "There is already an account registered with that email");
+        	// error in param.error - html
+        	
+            return "redirect:/showRegistrationUser?error";
         }
 
-        if (result.hasErrors()) {
-            return "showRegistrationUser";
-        }
+//        if (result.hasErrors()) {
+//            return "showRegistrationUser";
+//        }
         
-
-		
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 
@@ -95,14 +96,15 @@ public class UsersController {
 		
 //		user.setImage(file.getBytes());
 		user.setCreated(date);
-		user.setEnabled(true);
 		user.setPassword(encodedPassword);
+		user.setEnabled(false);
 
 		Role role = new Role("ROLE_USER");
 		roleRepo.save(role);
 		user.setRoles((Collections.singleton(role)));
 		userService.save(user, file);
 		
+		// success in param.success - html
 		return "redirect:/showRegistrationUser?success";
 	}
 
@@ -124,6 +126,12 @@ public class UsersController {
 				       "Tester", "WebDesigner", "Marketing Manager", "Arts");
 		
 		model.addAttribute("listProfessional", listProfessional);
+		
+		// for user profile image
+		String username = userDetails.getUsername();
+	    User userImage = userRepo.findByUserName(username);
+		model.addAttribute("userImage", userImage);
+		
 
 		return "viewProfile";
 
@@ -175,9 +183,15 @@ public class UsersController {
 		roleOptions.add(new Role(2, "ROLE_USER"));
 
 		model.addAttribute("listRoles", roleOptions);
+		
+		// for profile image in nav bar
+		String username = userDetails.getUsername();
+	    User userImage = userRepo.findByUserName(username);
+	    model.addAttribute("userImage", userImage);
 
 		return "users";
 	}
+	
 
 	@GetMapping("/showUpdateUser/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model, MultipartFile file,
@@ -190,6 +204,11 @@ public class UsersController {
 		roleOptions.add(new Role(1, "ROLE_ADMIN"));
 		roleOptions.add(new Role(2, "ROLE_USER"));
 		model.addAttribute("roleOptions", roleOptions);
+		
+		// for profile image in nav bar
+		String userName = userDetails.getUsername();
+	    User userImage = userRepo.findByUserName(userName);
+		model.addAttribute("userImage", userImage);	
 
 		return "update_user";
 	}
@@ -200,11 +219,10 @@ public class UsersController {
 		return "redirect:/showUsers";
 	}
 
+	
 	@PostMapping("/addUser")
-	public String addUserr(@ModelAttribute("user") User user, Model model, Address address, Role role,
+	public String addUserr(@AuthenticationPrincipal UserDetails userDetails, @ModelAttribute("user") User user, Model model, Address address, Role role,
 			MultipartFile file) {
-
-
 
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String encodedPassword = passwordEncoder.encode(user.getPassword());

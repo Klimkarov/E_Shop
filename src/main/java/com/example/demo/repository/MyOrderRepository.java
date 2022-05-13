@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import com.example.demo.entity.User;
 
 @Repository
 @Transactional
+@EnableJpaRepositories
 public interface MyOrderRepository extends JpaRepository<MyOrder, Integer> {
 
 	@Query("SELECT o FROM MyOrder o WHERE o.id = id")

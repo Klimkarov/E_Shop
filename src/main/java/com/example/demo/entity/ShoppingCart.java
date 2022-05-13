@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import java.time.LocalDate;
+import java.util.Random;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -31,7 +32,6 @@ import lombok.NoArgsConstructor;
 public class ShoppingCart {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	private Integer serialNumber;
@@ -65,7 +65,7 @@ public class ShoppingCart {
 	private Product product;
 	
 	@ManyToOne
-	@JoinColumn(referencedColumnName = "id")
+	@JoinColumn(name = "user_id")
 	private User user;
 	
 	@ManyToOne
@@ -110,6 +110,8 @@ public class ShoppingCart {
 	public Double getTotalCost() {
 		return getQuantity() * product.getPrice();
 	}
+	
+	
 
 
 }

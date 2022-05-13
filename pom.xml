@@ -171,7 +171,19 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			
+			
+			   <!-- Plugin for Heroku-->
+	<!--   <plugin>
+              <groupId>com.heroku.sdk</groupId>
+                <artifactId>heroku-maven-plugin</artifactId>
+                  <version>0.5.1</version>
+                    <configuration>
+                      <appName>${springboot-eshop}</appName>
+                    </configuration>
+            </plugin> -->
+			
 		</plugins>
-	</build>
-
+	</build>	
+	
 </project>
