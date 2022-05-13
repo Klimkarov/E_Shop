@@ -49,11 +49,13 @@ body {
 /*  pojavuvacka boja pri pokazuvanje na kursorot vrz kopceto-linkot */
 .navbar-links li:hover {
     background-color: #555;
+/*     margin-top: 15px; */
+/*     margin-bottom: 15px; */
 }
 
  .dropdown-menu{ 
      background-color: #333;
-     color: white;
+     
  }
 
 .toggle-button {

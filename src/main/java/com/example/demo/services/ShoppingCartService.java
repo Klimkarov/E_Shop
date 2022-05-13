@@ -1,20 +1,18 @@
 package com.example.demo.services;
 
-import java.time.LocalDate;
+import java.io.IOException;
 
-
-import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 
-import com.example.demo.entity.Product;
-import com.example.demo.entity.Role;
 import com.example.demo.entity.ShoppingCart;
 import com.example.demo.entity.User;
 import com.example.demo.repository.ProductRepository;
@@ -35,9 +33,21 @@ public class ShoppingCartService {
 	ProductRepository productRepo;
 	
 
-	public Iterable<ShoppingCart> findAll() {
+	public void saveUpdateImage(ShoppingCart shoppingCart, MultipartFile file) {
 
-		return shoppingCartRepo.findAll();
+		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+		if (fileName.contains("..")) {
+			System.out.println("not a valid file");
+		}
+		try {
+			shoppingCart.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+
+		shoppingCartRepo.save(shoppingCart);
+
 	}
 	
 
@@ -47,8 +57,6 @@ public class ShoppingCartService {
 	}
 	
 	
-	
-
 	public ShoppingCart find(int id) {
 		// TODO Auto-generated method stub
 		return shoppingCartRepo.findById(id).get();
@@ -59,6 +67,9 @@ public class ShoppingCartService {
 		
 		return shoppingCartRepo.findByUser(user);
 	}
+	
+	
+	
 
 //   public void getQty(Integer q) {
 //	    Integer quantity = 1;

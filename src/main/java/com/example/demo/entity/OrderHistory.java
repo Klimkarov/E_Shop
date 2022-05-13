@@ -27,7 +27,6 @@ import lombok.NoArgsConstructor;
 public class OrderHistory {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	private Integer serialNumber;

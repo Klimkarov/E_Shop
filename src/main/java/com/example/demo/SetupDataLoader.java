@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -7,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import com.example.demo.entity.Address;
 import com.example.demo.entity.Category;
@@ -70,6 +74,10 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 			user.setPassword(new BCryptPasswordEncoder().encode("adminpass"));
 			user.setEmail("admin@yahoo.com");
 			
+		
+			
+	
+					
 			Address address = new Address();
 			address.setCountry("Macedonia");
 			address.setCity("Veles");

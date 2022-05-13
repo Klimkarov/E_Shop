@@ -30,10 +30,12 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 		+ "LIKE %?1%") 
 		public List<User> findAll(String keyword);
 
-//	@Query("SELECT e FROM User e WHERE e.email = email")
-	User findByEmail(String email);
+//	@Query("SELECT e FROM User e WHERE e.email=:email")
+	public User findByEmail(String email);
+	
+	
 
-	User findByUserName(String userName);
+	public User findByUserName(String userName);
 	
 //	@Query("SELECT i FROM User i WHERE i.id = id")
 //	User findUserById(Integer id);
@@ -41,6 +43,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	void save(Payment payment);
 
 	boolean existsByEmailIgnoreCase(String email);
+	
+
+	
+
+	
 
 	
 

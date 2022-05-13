@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Repository;
 
+import com.example.demo.entity.Category;
 import com.example.demo.entity.MyOrder;
 import com.example.demo.entity.Product;
 import com.example.demo.entity.ShoppingCart;
@@ -32,6 +33,13 @@ public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Inte
 	public void save(Double total);
 
 	public List<ShoppingCart> findAllById(Integer id);
+
+
+	
+
+
+
+	
 		
 	// for delete no  need alias after delete
 //	@Query("DELETE FROM ShoppingCart n WHERE n.name =:name ")

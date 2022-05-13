@@ -43,24 +43,24 @@ background-size:cover;
 
 		<h5>Product Details</h5><br>
 			
-		<div class="row">
-			<div class="col-sm-4">		
-				<th: block th:each="order, status : ${orderList}">
-					<div class="row border rounded" th:with="product = ${order.product}">
+		<div class="row" style="color: black">
+			<div class="col-sm-6" >		
+				<th: block th:each="order, status : ${orderList}" style="border-color: black">
+					<div class="row border rounded black" th:with="product = ${order.product}">
 						<div class="col-1" th:text="${order.id}">
 							<!-- <div>[[${status.count}]]</div> -->
 
-							<div>
-								<a class="fas fa-trash icon-dark"></a>						
-							</div>
+<!-- 							<div> -->
+<!-- 								<a class="fas fa-trash icon-dark"></a>						 -->
+<!-- 							</div> -->
 						</div>
-						<div class="col-6">
+						<div class="col-4">
 							<img th:src="*{'data:image/png;base64,'+{order.image}}"
 								style="width: 170px; height: 150px;" class="img-fluid">
 						</div>
 						<div class="col-5">
 							<div>
-								<a> <b> [[${order.name}]] </b></a>
+								<a><b>[[${order.name}]]</b></a>
 							</div>
 						
 							<div>
@@ -85,10 +85,10 @@ background-size:cover;
 					</th:block>
 					<div class="row m-1">&nbsp;</div>
 			</div>
-			<div class="col-sm-4" ><div> 
+			<div class="col-sm-3" ><div> 
 		     <th: block >
 				<div>
-					<span class="h5">&nbsp;&nbsp;&nbsp; Estimated total</span>
+					<span class="h4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Total</span>
 				</div>
 				<div class="mt-2">
 					<span class="h2">&nbsp;&nbsp;&nbsp; [[${total}]]</span>
@@ -212,11 +212,10 @@ background-size:cover;
 				</div>
 
 				</th:block>
-				</div>
-				</div>
-				<div class="col-sm-4">
-				<div>
-				  <th:block>
+			</div>
+		</div>
+				<div class="col-sm-3">
+				  <div><th:block>
 	<div>
 		<h4>Personal data</h4>
 		 <span> First Name: &nbsp;[[${firstName}]] </span><br> 

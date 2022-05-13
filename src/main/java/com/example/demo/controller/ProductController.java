@@ -2,18 +2,11 @@ package com.example.demo.controller;
 
 import java.time.LocalDate;
 
-
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.entity.Category;
@@ -39,6 +31,7 @@ import com.example.demo.repository.ShoppingCartRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.services.CategoryService;
 import com.example.demo.services.ProductService;
+import com.example.demo.services.ShoppingCartService;
 
 @Transactional
 @Controller
@@ -66,6 +59,9 @@ public class ProductController {
 	ShoppingCartRepository shoppingCartRepo;
 	
 	@Autowired
+	ShoppingCartService shoppingCartService;
+	
+	@Autowired
 	ShoppingCart shoppingCart;
 
 	
@@ -73,13 +69,12 @@ public class ProductController {
 	@GetMapping("/product")
 	public String viewProductPage(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 			
-		String keyword = ""; 
+		String keyword = ""; 			
+					
 		
 		return listByPage(model, 1, keyword, "name", "asc");
 
 	}
-	
-	
 
 
 	@GetMapping("/page/{pageNumber}")
@@ -107,7 +102,7 @@ public class ProductController {
         
 		Product product = new Product();
 		model.addAttribute("product", product);	
-
+		
 		List<Category> listCategory = categoryRepo.findAll();
 		model.addAttribute("listCategory", listCategory);
 		
@@ -115,13 +110,11 @@ public class ProductController {
 		
 	}
 	
-	
-	
 
 	// Create new Product page for creation of new Product//
 
 	@GetMapping("/showNewProductForm")
-	public String showNewProduct(Model model) {
+	public String showNewProduct(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 
 		Product product = new Product();
 		model.addAttribute("product", product);
@@ -134,29 +127,90 @@ public class ProductController {
 
 		List<Category> listCategory = categoryRepo.findAll();
 		model.addAttribute("listCategory", listCategory);
+			
+	   // for profile image in nav bar
+       String userName = userDetails.getUsername();
+       User userImage = userRepo.findByUserName(userName);
+	   model.addAttribute("userImage", userImage);
 
 		return "new_product";
 	}
+	
 
 	@PostMapping("/saveProduct")
-	public String saveProduct(@ModelAttribute("product") Product product, Model model, 
-			                  MultipartFile file) {
+	public String saveProduct(@ModelAttribute("product") Product product, @ModelAttribute("cart") ShoppingCart cart, Model model, 
+			@AuthenticationPrincipal UserDetails userDetails, MultipartFile file) {
 
 		LocalDate createdProduct = LocalDate.now();
 		product.setCreatedProduct(createdProduct);
-
+		
+//		Integer sNumber = 0;
+//		sNumber = product.getSerialNumber();
+//
+//// warning for duplicate SerialNumber
+//		List<Product> listProduct = (List<Product>) productRepo.findAll();
+//		for (Product product2 : listProduct) {
+//			if(product2.getSerialNumber()==sNumber) {
+//				return "warning_SerialNumber";
+//			}
+//		}
+		
 		productRepo.save(product);
 		productService.save(product, file);
+			
+// if have updating on product, this is for also to automatic update in shoppingCart				
+		String username = userDetails.getUsername();
+		User user = userRepo.findByUserName(username);
 		
-		return "redirect:/product";
+		List<ShoppingCart> listShopCart =  shoppingCartRepo.findAll();
+		for (ShoppingCart shoppingCart1 : listShopCart) {
+			
+			if(product.getSerialNumber()==shoppingCart1.getSerialNumber()) {
+				
+				ShoppingCart shopcart = new ShoppingCart();
+				
+				shopcart.setCategory(product.getCategory());
+				shopcart.setCreatedProduct(product.getCreatedProduct());
+				shopcart.setDescription(product.getDescription());
+				shopcart.setId(product.getId());
+				shopcart.setImage(product.getImage());
+				shopcart.setName(product.getName());
+				shopcart.setOrigin(product.getOrigin());
+				shopcart.setPrice(product.getPrice());
+				
+				shopcart.setQuantity(1);
+				shopcart.setAddress(shopcart.getAddress());
+				shopcart.setTotal(shopcart.getTotal());
+				
+				shopcart.setUser(user);
+				shopcart.setProduct(product);
+				
+				Double sum = shopcart.getPrice() * shopcart.getQuantity();
+				shoppingCart.setSum(sum);
+				shoppingCartRepo.save(shopcart);
+				shoppingCartService.saveUpdateImage(shopcart, file);
+							
+			}	
+		}			
+	
+// Warning for Stock or Price when they are equal with zero			
+	List<Product> list = (List<Product>) productRepo.findAll();
+	for (Product productStock : list) {	
+		if(productStock.getStock() == 0 || productStock.getPrice() == 0) {
+			productRepo.delete(product);
+			return "warning_StockAndPrice";		
+		}	
 	}
 	
+	return "redirect:/product";
+}
+		
 
-	// Update Product //
+	// Update Product Page
 
 	@GetMapping("/showUpdateProductForm/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model, 
-			Category category, MultipartFile file) {
+			Category category, MultipartFile file, @AuthenticationPrincipal UserDetails userDetails) {
 
 		Product product = productRepo.findById(id).get();
 		model.addAttribute("product", product);
@@ -165,31 +219,40 @@ public class ProductController {
 			
 		List<Category> listCategory = categoryRepo.findAll();
 		model.addAttribute("listCategory", listCategory);
+		
+		// for profile image in nav bar
+		String userName = userDetails.getUsername();
+		User userImage = userRepo.findByUserName(userName);
+		model.addAttribute("userImage", userImage);
+	
 
 		return "update_product";
 	}
 
 	
-	// Delete Product //
+	
+	// Button Delete Product By Id
 
 	@GetMapping("/deleteProduct/{id}")
-	public String deleteProduct(@PathVariable("id") Integer id, Product product, ShoppingCart shoppingCart) {
+	public String deleteProduct(@PathVariable("id") Integer id ) {
 		
-		productRepo.findById(id).get();
-//		shoppingCartRepo.findById(id).get();
-		productRepo.deleteById(id);
+		Product productId = productRepo.findById(id).get();
 		
-//		List<ShoppingCart> list = shoppingCartRepo.findAll();
-//		for (ShoppingCart shoppingCart2 : list) {
-//			if(shoppingCart2.getId()==id) {
-//				shoppingCartRepo.deleteById(id);
-//			}
-//		}
+				
+		List<ShoppingCart> listShoppingCart = shoppingCartRepo.findAll();
+		for (ShoppingCart shoppingCart : listShoppingCart) {
+			if(productId.getId()==shoppingCart.getId()) {
+				productRepo.delete(productId);
+				shoppingCartRepo.delete(shoppingCart);
+			}
+		}
+		
+		productRepo.delete(productId);
+		
     	return "redirect:/product";
 	}
-	
 
-	// Add Product to Shoping Card //
+	// Add Product to Shoping Card 
 
 	@GetMapping("/addProduct/{proId}")
 	public String addProducts(@PathVariable("proId") Integer proId, @AuthenticationPrincipal UserDetails userDetails, Model model) {
@@ -204,6 +267,7 @@ public class ProductController {
 	//	User user1 = userRepo.findById(proId).get();
 		
 		ShoppingCart shoppingCart = new ShoppingCart();
+		shoppingCart.setId(productId.getId());
 		shoppingCart.setName(productId.getName());
 		shoppingCart.setPrice(productId.getPrice());
 		shoppingCart.setStock(productId.getStock());
@@ -221,7 +285,7 @@ public class ProductController {
 
 	//	user.setShoppingCart(shoppingCart);
 		
-		// Setiranje na Sum, odkako gi ima Price i Quantity //
+		// Setiranje na Sum, odkako gi ima Price i Quantity 
 		Double sum = shoppingCart.getPrice() * shoppingCart.getQuantity();
 		shoppingCart.setSum(sum);
 		
@@ -266,6 +330,10 @@ public class ProductController {
 
 		List<Product> listProduct = (List<Product>) productRepo.findAll();
 		model.addAttribute("listProduct", listProduct);
+		
+		// for profile image in nav bar
+		List<User> listUser =  userRepo.findAll();
+		model.addAttribute("listUser", listUser);
 
 		return "description";
 	}

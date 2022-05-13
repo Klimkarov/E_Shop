@@ -1,15 +1,19 @@
 package com.example.demo.services;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 import java.util.Base64;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,6 +33,8 @@ public class UserService {
 	
 	@Autowired
 	UserRepository userRepo;
+	
+
 
 	public List<User> listAll(String keyword) {
 		if (keyword != null) {
@@ -42,11 +48,16 @@ public class UserService {
 
 			String fileName = StringUtils.cleanPath(file.getOriginalFilename()); // pateka do image //
 			if (fileName.contains("..")) {
+				
 				System.out.println("not a valid file");
 			}
 			try {
-				//                           encodeToString because parametar for image is string    
+			                           	// encodeToString because parametar for image is string    
 				user.setImage(Base64.getEncoder().encodeToString(file.getBytes())); 
+				if(user.getImage()==null) {
+					fileName = StringUtils.cleanPath("/images/userLogo.jpeg");
+					user.setImage(fileName);
+				}
 			} catch (IOException e) {
 
 				e.printStackTrace();

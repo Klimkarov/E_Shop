@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.Serializable;
 
 import java.util.Date;
@@ -69,6 +71,7 @@ public class User implements Serializable  {
 	@Column(nullable = false, length = 20)
 	private String lastName;
 	
+	// unique = true => if input userName is same like already stored userName will give error
 	@Column(nullable = false, unique = true, length = 20)
 	private String userName;
 	
@@ -77,20 +80,20 @@ public class User implements Serializable  {
 	
 	@Email
 	@NaturalId
-	@Column(name="Email", nullable = false, unique = true, length = 45)
+	@Column(name="email", nullable = false, unique = true, length = 45)
 	private String email;
 	
 	private String profession;
 	
 	private Boolean employed;
 	
-	@Column(name="Birthday", unique = true, length = 10)
+	@Column(name="birthday", unique = true, length = 10)
 	@DateTimeFormat(pattern="dd/MM/yyyy") //  ako ima / togas i na front pri vnes ke bara so / 
 	private Date birthday;
 	
 	private String gender;
 	
-	@Column(name="Enabled")
+	@Column(name="is_present")
 	private Boolean enabled;	
 	
 	

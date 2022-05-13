@@ -139,22 +139,27 @@ public class PaymentController {
 						product2.setStock(product2.getStock() - myOrder.getQuantity());
 						productRepo.save(product2);
 					}
+					
+//              if product in stock = 0, delete product from table			
+					if(product2.getStock()==0) {
+						productRepo.delete(product2);
+					}
 				}
 			}
 
 			
-//        process Payment, delete ShoppingCart and Order //
+//        process Payment, after payment delete item in ShoppingCart and Order //
 
 			List<ShoppingCart> listShopCart1 = shoppingCartRepo.findAll();
 			for (ShoppingCart shoppingCart : listShopCart1) {
-				if (payment != null && shoppingCart.getSerialNumber().equals(myOrder.getSerialNumber())) {
+				if (payment != null && shoppingCart.getId().equals(myOrder.getId())) {
 					shoppingCartRepo.delete(shoppingCart);
 					orderRepo.delete(myOrder);
 				}
 			}
 		}
-
-		return "redirect:/showPayment";
+		
+				return "redirect:/showPayment";
 	}
 
 	@GetMapping("/showPayment")
@@ -167,6 +172,12 @@ public class PaymentController {
 //      Set User in Success Payment		
 		List<Payment> payment1 = user.getPayment();
 		model.addAttribute("listPayment", payment1);
+		
+		// for user profile image
+		String username = userDetails.getUsername();
+		User userImage = userRepo.findByUserName(username);
+		model.addAttribute("userImage", userImage);
+			    
 		return "successPayment";
 	}
 	
